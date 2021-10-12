@@ -44,8 +44,8 @@
 #define button1Pin 12
 #define button2Pin 3
 
-#define SCREEN_WIDTH 128  // OLED display width, in pixels
-#define SCREEN_HEIGHT 32  // OLED display height, in pixels
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 32
 #define OLED_RESET 4
 
 ////////////////////////////////////////////////////////////////////////
@@ -83,7 +83,8 @@ int redPercentage;
 int greenPercentage;
 int bluePercentage;
 
-int mode = 4;
+int totalModes;
+int mode = 0;
 
 ////////////////////////////////////////////////////////////////////////
 //
@@ -110,28 +111,8 @@ void setup() {
 
   pinMode(button1Pin, INPUT_PULLUP);
 
-  display.setRotation(2);
-
-  // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
-  if (!display.begin(SSD1306_SWITCHCAPVCC)) {
-    Serial.println(F("SSD1306 allocation failed"));
-    for (;;)
-      ;  // Don't proceed, loop forever
-  }
-
-  middleText(F("RGB Torch"));
-
-  delay(2000);
-
-  button1.attachClick(button1Clicked);
-  button1.setDebounceTicks(50);
-  button1.attachLongPressStart(button1Held);
-  button1.setPressTicks(250);
-
-  button2.attachClick(button1Clicked);
-  button2.setDebounceTicks(50);
-  button2.attachLongPressStart(button1Held);
-  button2.setPressTicks(250);
+  startScreen();
+  startButtons();
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -148,6 +129,7 @@ void setup() {
 void loop() {
   button1.tick();
   button2.tick();
+  totalModes = 3;
 
   if (mode == 0) {
     middleText(F("DIY Mode"));
@@ -162,19 +144,5 @@ void loop() {
 
   } else if (mode == 3) {
     debug();
-  } else if (mode == 4) {
-    border();
   }
-  // analogWrite(redPin, 0);
-  // analogWrite(greenPin, 0);
-  // analogWrite(bluePin, 0);
-
-  // Serial << redPercentage << "\t" << greenPercentage << "\t" << bluePercentage << "\t" << endl;
-  // Serial << digitalRead(button1Pin) << "\t" << analogRead(redPot) << "\t" << analogRead(greenPot) << "\t" << analogRead(bluePot) << "\t" << endl;
-
-  // unsigned long currentMillis = millis();
-  // if (currentMillis - previousMillis >= interval) {
-  //   previousMillis = currentMillis;
-  //   choice = colours[random(0, 25)];
-  // }
 }

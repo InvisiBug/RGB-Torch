@@ -1,11 +1,16 @@
 void startScreen() {
-  display.clearDisplay();
+  // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
+  if (!display.begin(SSD1306_SWITCHCAPVCC)) {
+    for (;;) {
+      Serial << "Can't talk to screen" << endl;
+      delay(1000);
+    }
+  }
+  display.setRotation(2);
 
-  display.setTextSize(2);               // Normal 1:1 pixel scale
-  display.setTextColor(SSD1306_WHITE);  // Draw white text
-  display.setCursor(0, 0);              // Start at top-left corner
-  display.println(F("RGB Torch"));
-  display.display();
+  middleText(F("RGB Torch"));
+
+  delay(2000);
 }
 
 void text(String text) {
@@ -31,7 +36,7 @@ void middleText(String text) {
 void debugText(String text) {
   display.clearDisplay();
 
-  display.setTextSize(2);                      // Normal 1:1 pixel scale
+  display.setTextSize(2);                        // Normal 1:1 pixel scale
   display.setTextColor(SSD1306_WHITE);           // Draw white text
   display.setCursor(middle(text.length()), 10);  // Start at top-left corner
   display.println(text);
