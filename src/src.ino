@@ -38,7 +38,7 @@
 #define greenPot A2
 #define bluePot A3
 
-#define potMin 1
+#define potMin 20
 #define potMax 1024
 
 #define button1Pin 12

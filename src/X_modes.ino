@@ -1,7 +1,30 @@
 void diy() {
-  redPercentage = map(analogRead(redPot), potMin, potMax, 0, 100);
-  greenPercentage = map(analogRead(greenPot), potMin, potMax, 0, 100);
-  bluePercentage = map(analogRead(bluePot), potMin, potMax, 0, 100);
+  int red;
+  int green;
+  int blue;
+
+  int lim = 50;
+  if (analogRead(redPot) < lim) {
+    red = 0;
+  } else {
+    red = analogRead(redPot);
+  }
+
+  if (analogRead(greenPot) < lim) {
+    green = 0;
+  } else {
+    green = analogRead(greenPot);
+  }
+
+  if (analogRead(bluePot) < lim) {
+    blue = 0;
+  } else {
+    blue = analogRead(bluePot);
+  }
+
+  redPercentage = map(red, 0, potMax, 0, 100);
+  greenPercentage = map(green, 0, potMax, 0, 100);
+  bluePercentage = map(blue, 0, potMax, 0, 100);
 
   analogWrite(redPin, map(redPercentage, 0, 100, 0, 255));
   analogWrite(greenPin, map(greenPercentage, 0, 100, 0, 255));
